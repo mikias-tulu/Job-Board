@@ -1,6 +1,6 @@
 <template>
     <header class="bg-gray-800 text-white">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
           <div class="flex-shrink-0">
@@ -9,8 +9,7 @@
           <!-- Links and Hamburger Menu -->
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <a href="#" class="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-
+              <a class="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium" @click="logout">Home</a>
               <!-- Dropdown -->
               <div @click="toggleDropdown" class="relative">
                 <button class="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium flex items-center">
@@ -65,6 +64,10 @@
         this.mobileMenuOpen = !this.mobileMenuOpen;
       },
     },
+    logout() {
+        localStorage.removeItem('token');
+        window.location.href = '/';
+    }
   };
   </script>
   

@@ -83,4 +83,13 @@ class JobController extends Controller
 
         return response()->json($jobs);
     }
+    public function recentJobs()
+    {
+        // Fetch the last 5 jobs without filtering by company_id
+        $recentJobs = Job::orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        return response()->json($recentJobs);
+    }
 }
