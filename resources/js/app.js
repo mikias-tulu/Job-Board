@@ -4,42 +4,42 @@ import axios from 'axios';
 
 import Auth from './components/Auth.vue';
 import Dashboard from './components/Dashboard.vue';
+import LandingPage from './components/LandingPage.vue';
 
 const app = createApp({
     setup() {
-        const isAuthenticated = ref(false); // Define a reactive property
-        const showDashboard = ref(false); // Track whether to show the dashboard
+        const isAuthenticated = ref(false);
+        const showDashboard = ref(false);
 
         // Check authentication state on app initialization
         const checkAuth = async () => {
             try {
                 await axios.get('/api/user', {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`, // Include token in the header
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     }
                 });
                 console.log("first token", localStorage.getItem('token'))
-                isAuthenticated.value = true; // User is authenticated
-                showDashboard.value = true; // Show dashboard if authenticated
+                isAuthenticated.value = true; 
+                showDashboard.value = true;
             } catch (error) {
-                isAuthenticated.value = false; // User is not authenticated
-                showDashboard.value = false; // Don't show dashboard
+                isAuthenticated.value = false;
+                showDashboard.value = false;
             }
         };
         
 
-        // Call the checkAuth function when the app initializes
         checkAuth();
 
         return { isAuthenticated, showDashboard };
     },
     components: {
-        Auth,
+        LandingPage,
         Dashboard,
     },
 });
 
-// Listen for an event from Auth.vue to toggle authentication state
+
 app.component('auth', {
     props: {
         onLogin: {
@@ -49,7 +49,7 @@ app.component('auth', {
     },
     setup(props) {
         const handleLogin = () => {
-            props.onLogin(); // Call the provided login handler
+            props.onLogin();
         };
 
         return { handleLogin };

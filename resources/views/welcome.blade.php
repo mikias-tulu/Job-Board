@@ -15,13 +15,16 @@
     </head>
     <body >
     <div id="app">
-  <template v-if="showDashboard">
-    <dashboard></dashboard> <!-- Display the dashboard -->
-  </template>
-  <template v-else>
-    <auth @login-success="showDashboard = true"></auth> <!-- Auth component -->
-  </template>
-</div>
+        <template v-if="showDashboard">
+            <dashboard></dashboard> 
+        </template>
+        <template v-else>
+            <landing-page />
+            
+        </template>
+    </div>
+
+  
 
     </body>
 </html>
