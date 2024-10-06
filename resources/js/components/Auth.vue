@@ -1,30 +1,55 @@
 <template>
-    <div class="modal" v-if="isVisible">
-        <div class="modal-background" @click="closeModal"></div>
-        <div class="auth-container">
-            <h1>{{ isRegistering ? 'Register' : 'Login' }}</h1>
+    <div class="fixed inset-0 z-50 flex items-center justify-center" v-if="isVisible">
+        <div class="absolute inset-0 bg-black opacity-50" @click="closeModal"></div>
+        <div class="relative max-w-sm w-full p-6 bg-white rounded-lg shadow-lg z-10">
+            <h1 class="text-xl font-bold text-center mb-4">{{ isRegistering ? 'Register' : 'Login' }}</h1>
 
             <form @submit.prevent="isRegistering ? register() : login()">
-                <div class="form-group" v-if="isRegistering">
-                    <label for="name">Name</label>
-                    <input type="text" v-model="form.name" required />
+                <div class="mb-4" v-if="isRegistering">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input
+                        type="text"
+                        v-model="form.name"
+                        required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                    />
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" v-model="form.email" required />
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input
+                        type="email"
+                        v-model="form.email"
+                        required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                    />
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" v-model="form.password" required />
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input
+                        type="password"
+                        v-model="form.password"
+                        required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                    />
                 </div>
 
-                <button type="submit">{{ isRegistering ? 'Register' : 'Login' }}</button>
+                <button
+                    type="submit"
+                    class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+                >
+                    {{ isRegistering ? 'Register' : 'Login' }}
+                </button>
             </form>
 
-            <button @click="toggleForm">{{ isRegistering ? 'Already have an account? Login' : 'Do not have an account? Register' }}</button>
+            <button
+                @click="toggleForm"
+                class="mt-4 text-blue-600 hover:text-blue-800 transition duration-200"
+            >
+                {{ isRegistering ? 'Already have an account? Login' : 'Do not have an account? Register' }}
+            </button>
 
-            <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
-            <div v-if="successMessage" class="success">{{ successMessage }}</div>
+            <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
+            <div v-if="successMessage" class="text-green-500 mt-2">{{ successMessage }}</div>
         </div>
     </div>
 </template>
@@ -94,7 +119,6 @@ export default {
                 localStorage.setItem('token', response.data.token);
                 console.log('Token saved:', response.data.token);
 
-
                 this.$emit('login-success');
                 this.closeModal();
                 window.location.reload();
@@ -105,49 +129,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999; /* Ensure modal is on top */
-}
-
-.modal-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-}
-
-.auth-container {
-    position: relative;
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    background: white; /* White background for the modal */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    z-index: 1000; /* Ensure the modal content is above the background */
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.error {
-    color: red;
-}
-
-.success {
-    color: green;
-}
-</style>

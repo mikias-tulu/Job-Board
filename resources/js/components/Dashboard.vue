@@ -8,9 +8,7 @@
             Welcome, {{ user.name }}! Here you can manage your job postings.
           </p>
   
-          <CreateJobPosting @job-created="fetchJobPostings" />
-  
-          <div class="bg-white p-4 shadow-md rounded-md mt-4">
+          <div v-if="currentPage === 'dashboard'" class="bg-white p-4 shadow-md rounded-md mb-4">
             <h2 class="text-lg font-bold mb-3">Your Job Postings</h2>
             <ul v-if="jobPostings.length" class="space-y-3">
               <li
@@ -38,12 +36,18 @@
             <p v-else class="text-gray-500">No job postings available.</p>
           </div>
   
-          <button
-            @click="createJobPosting"
+          <div v-if="currentPage === 'jobPostings'" class="p-4">
+            <CreateJobPosting @job-created="fetchJobPostings" />
+          </div>
+  
+          <div v-if="currentPage === 'dashboard'" class="p-4">
+            <button
+            @click="changePage('jobPostings')"
             class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
             Post a New Job
           </button>
+          </div>
   
           <EditJobPosting
             v-if="editingJob"
@@ -62,7 +66,7 @@
   import Sidebar from './Sidebar.vue';
   import Header from './Header.vue';
   import CreateJobPosting from './CreateJob.vue';
-  import EditJobPosting from './EditJobPosting.vue'; // Import the EditJobPosting component
+  import EditJobPosting from './EditJobPosting.vue';
   
   export default {
     name: 'Dashboard',
@@ -70,12 +74,13 @@
       Sidebar,
       Header,
       CreateJobPosting,
-      EditJobPosting, // Register the EditJobPosting component
+      EditJobPosting,
     },
     setup() {
       const user = ref({});
       const jobPostings = ref([]);
-      const editingJob = ref(null); // To track the job being edited
+      const editingJob = ref(null);
+      const currentPage = ref('dashboard'); // Track the current page
   
       onMounted(async () => {
         await fetchUser();
@@ -130,14 +135,15 @@
       };
   
       const changePage = (page) => {
+        currentPage.value = page; // Set the current page
         console.log(`Navigating to ${page}`);
-        // Implement navigation logic
       };
   
       return {
         user,
         jobPostings,
         editingJob,
+        currentPage,
         createJobPosting,
         editJobPosting,
         deleteJobPosting,

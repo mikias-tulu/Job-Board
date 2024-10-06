@@ -1,36 +1,39 @@
 <template>
-    <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div class="w-full flex flex-col items-center justify-start mt- mb-2 bg-gray-100">
       <h1 class="text-2xl font-bold mb-4">Job Search</h1>
-      <form @submit.prevent="searchJobs" class="bg-white p-6 shadow-md rounded-md w-96">
-        <div class="mb-4">
+      <form 
+        @submit.prevent="searchJobs" 
+        class="bg-white p-6 shadow-md rounded-md w-full max-w-5xl flex items-center space-x-4" 
+      >
+        <div class="flex-grow mb-4">
           <label for="title" class="block text-sm font-medium text-gray-700">Job Title</label>
           <input
             v-model="title"
             type="text"
             id="title"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent p-2 transition duration-200 ease-in-out"
             placeholder="Enter job title"
           />
         </div>
-        <div class="mb-4">
+        <div class="flex-grow mb-4">
           <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
           <input
             v-model="location"
             type="text"
             id="location"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent p-2 transition duration-200 ease-in-out"
             placeholder="Enter location"
           />
         </div>
         <button
           type="submit"
-          class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
         >
           Search Jobs
         </button>
       </form>
   
-      <div v-if="jobs.length" class="mt-6 w-96">
+      <div v-if="jobs.length" class="mt-6 w-full bg-white rounded shadow px-5 mt-4">
         <h2 class="text-lg font-bold mb-3">Search Results:</h2>
         <ul class="bg-white p-4 rounded-md shadow-md">
           <li

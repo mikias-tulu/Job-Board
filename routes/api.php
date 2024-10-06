@@ -30,3 +30,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/search', [JobController::class, 'search']);
+Route::get('/jobs/recent', [JobController::class, 'recentJobs']);

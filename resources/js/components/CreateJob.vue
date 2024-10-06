@@ -39,7 +39,9 @@
           Create Job
         </button>
       </form>
-      <p v-if="error" class="text-red-500">{{ error }}</p>
+  
+      <p v-if="error" class="text-red-500 mt-2">{{ error }}</p>
+      <p v-if="successMessage" class="text-green-500 mt-2">{{ successMessage }}</p>
     </div>
   </template>
   
@@ -56,18 +58,25 @@
         job_type: '',
       });
       const error = ref(null);
+      const successMessage = ref(null); // New success message variable
   
       const submitJob = async () => {
         error.value = null; // Reset error
+        successMessage.value = null; // Reset success message
         try {
           await axios.post('/api/jobs', job.value, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
           });
-          // Optionally, reset the form or emit an event
+  
+          // Optionally, reset the form
           job.value = { title: '', location: '', job_type: '' };
-          // Notify parent component or update job postings list
+          
+          // Set the success message
+          successMessage.value = 'Job created successfully!'; // Set the success message
+  
+          // Notify parent component or update job postings list (optional)
         } catch (err) {
           error.value = err.response.data.message || 'An error occurred while creating the job.';
           console.error('Error creating job:', err);
@@ -78,6 +87,7 @@
         job,
         submitJob,
         error,
+        successMessage, // Return the success message
       };
     },
   };
