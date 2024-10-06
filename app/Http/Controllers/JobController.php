@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+    // Get all job postings
     public function index()
     {
-        return Job::all();
+        return Job::where('company_id', Auth::user()->company_id)->get();
     }
 
+    // Store a new job posting
     public function store(Request $request)
     {
         $request->validate([
@@ -31,17 +33,32 @@ class JobController extends Controller
         return response()->json($job, 201);
     }
 
+    // Update an existing job posting
     public function update(Request $request, $id)
     {
         $job = Job::findOrFail($id);
+
+        // Check if the job belongs to the current user's company
+        if ($job->company_id !== Auth::user()->company_id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $job->update($request->all());
+
         return response()->json($job, 200);
     }
 
+    // Delete a job posting
     public function destroy($id)
     {
-        Job::findOrFail($id)->delete();
+        $job = Job::findOrFail($id);
+
+        if ($job->company_id !== Auth::user()->company_id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $job->delete();
+
         return response()->json(null, 204);
     }
 }
-
