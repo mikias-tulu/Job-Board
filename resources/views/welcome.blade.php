@@ -14,8 +14,14 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body >
-       <div id="app">
-        <example-component></example-component>
-       </div>
+    <div id="app">
+  <template v-if="showDashboard">
+    <dashboard></dashboard> <!-- Display the dashboard -->
+  </template>
+  <template v-else>
+    <auth @login-success="showDashboard = true"></auth> <!-- Auth component -->
+  </template>
+</div>
+
     </body>
 </html>
