@@ -61,4 +61,26 @@ class JobController extends Controller
 
         return response()->json(null, 204);
     }
+
+    // Search job postings for guest users
+    public function search(Request $request)
+    {
+        $title = $request->query('title');
+        $location = $request->query('location');
+
+        $query = Job::query();
+
+        if ($title) {
+            $query->where('title', 'LIKE', '%' . $title . '%');
+        }
+
+        if ($location) {
+            $query->where('location', 'LIKE', '%' . $location . '%');
+        }
+
+        // Get the filtered job postings
+        $jobs = $query->get();
+
+        return response()->json($jobs);
+    }
 }
